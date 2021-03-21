@@ -1,21 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import {UserLoginInfo} from './app/context/userLoginInfo'
 
+import RootDrawerNavigator from './app/screens/UserOptionsList'
+import AccountContainerApp from './app/screens/AccountScreen'
 export default function App() {
+  const [userLoginInfo, setUserLoginInfo] = useState({userID: "", token:"", isAuthorized:false}); 
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <UserLoginInfo.Provider value={{userLoginInfo,setUserLoginInfo}}>
+
+    <>
+    {
+      userLoginInfo.isAuthorized ? 
+      (
+          
+        <RootDrawerNavigator/>
+
+      )
+      :
+      ( 
+         
+        <AccountContainerApp/>
+
+      )
+    }
+
+    </>
+    </UserLoginInfo.Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
